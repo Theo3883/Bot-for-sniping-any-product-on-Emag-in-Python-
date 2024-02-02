@@ -3,10 +3,14 @@ from selenium.webdriver.common.by import By
 import time
 import random 
 wd = webdriver.Chrome()
+"""
+wd = webdriver.Chrome()
 wd.maximize_window()
 wd.get("https://www.emag.ro/placa-video-asus-dual-geforce-rtxtm-2060-oc-edition-evo-6gb-gddr6-192-bit-dual-rtx2060-o6g-evo/pd/DRWM68BBM/")
-wd.implicitly_wait(10)
-add_to_cart = wd.find_element(By.XPATH, '//*[@id="main-container"]/section[3]/div/div[1]/div[2]/div/div[2]/div[2]/form/div/div[3]/div[3]/div[1]/button')
+wd.implicitly_wait(20)
+time.sleep(5)"""
+#add_to_cart = wd.find_element(By.XPATH, '//*[@id="main-container"]/section[3]/div/div[1]/div[2]/div/div[2]/div[2]/form/div/div[3]/div[3]/div[1]/button') windows 
+add_to_cart = wd.find_element(By.XPATH, '//*[@id="main-container"]/section[3]/div/div[1]/div[2]/div/div[2]/div[2]/form/div/div[3]/div[2]/div[1]/button') #mac
 add_to_cart.click()
 
 random_wait_time = random.randrange(1, 2)
