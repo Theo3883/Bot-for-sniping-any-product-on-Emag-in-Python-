@@ -1,13 +1,35 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import select
+from selenium.webdriver.common.keys import Keys
 import time
 import random
 import os
 import subprocess
 
+#empty cart
 driver = webdriver.Chrome()
 driver.maximize_window()
+driver.get("https://auth.emag.ro/user/login")
+email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
+email.send_keys("teosandu88@gmail.com")
+random_wait_time = random.randrange(1, 2)
+print(random_wait_time)
+time.sleep(random_wait_time)
+email = driver.find_element(By.ID, 'user_login_continue')
+email.click()
+time.sleep(10)
+random_wait_time = random.randrange(1, 2)
+print(random_wait_time)
+time.sleep(random_wait_time)
+password = driver.find_element(By.ID, 'user_login_password')
+password.send_keys("gabiMARIANA2")
+password = driver.find_element(By.ID, 'user_login_continue')    
+password.click()
+time.sleep(15)
+
+driver.execute_script("window.open('', '_blank');")
+driver.switch_to.window(driver.window_handles[1])
 driver.get("https://www.emag.ro/")
 driver.implicitly_wait(20)
 
@@ -67,7 +89,7 @@ if(priceint < max_priceint):
     print(random_wait_time)
     time.sleep(random_wait_time)
 
-    email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
+    '''email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
     email.send_keys("teosandu88@gmail.com")
     random_wait_time = random.randrange(1, 2)
     print(random_wait_time)
@@ -84,9 +106,11 @@ if(priceint < max_priceint):
     password.click()
     random_wait_time = random.randrange(1, 2)
     print(random_wait_time)
-    time.sleep(random_wait_time)
+    time.sleep(random_wait_time)'''
 
-    numerar = driver.find_element(By.XPATH, '//*[@id="paymentSection"]/div[4]/ul/li[3]')
+    courier = driver.find_element(By.ID, 'courierTab')
+    courier.click()
+    numerar = driver.find_element(By.ID, 'paymentLinenumerar')
     numerar.click()
 
 time.sleep(5)
