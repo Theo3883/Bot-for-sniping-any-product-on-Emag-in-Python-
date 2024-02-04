@@ -109,25 +109,6 @@ while(ok):
         print(random_wait_time)
         time.sleep(random_wait_time)
 
-        '''email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
-        email.send_keys("teosandu88@gmail.com")
-        random_wait_time = random.randrange(1, 2)
-        print(random_wait_time)
-        time.sleep(random_wait_time)
-        email = driver.find_element(By.ID, 'user_login_continue')
-        email.click()
-
-        random_wait_time = random.randrange(1, 2)
-        print(random_wait_time)
-        time.sleep(random_wait_time)
-        password = driver.find_element(By.ID, 'user_login_password')
-        password.send_keys("gabiMARIANA2")
-        password = driver.find_element(By.ID, 'user_login_continue')    
-        password.click()
-        random_wait_time = random.randrange(1, 2)
-        print(random_wait_time)
-        time.sleep(random_wait_time)'''
-
         courier = driver.find_element(By.ID, 'courierTab')
         courier.click()
         numerar = driver.find_element(By.ID, 'paymentLinenumerar')
