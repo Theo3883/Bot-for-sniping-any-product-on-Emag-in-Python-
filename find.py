@@ -14,6 +14,7 @@ options.add_extension('./captcha.crx')
 driver = webdriver.Chrome(options=options)  
 time.sleep(10)
 driver.get("https://auth.emag.ro/user/login")
+driver.maximize_window()
 email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
 email.send_keys("teosandu88@gmail.com")
 random_wait_time = random.randrange(1, 2)
@@ -59,7 +60,6 @@ while(ok):
     driver.execute_script("window.open('', '_blank');")
     driver.switch_to.window(driver.window_handles[1])
     driver.get("https://www.emag.ro/")
-    driver.maximize_window()
     driver.implicitly_wait(20)
 
     ## search for a product
