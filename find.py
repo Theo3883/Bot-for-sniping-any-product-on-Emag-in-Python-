@@ -19,21 +19,21 @@ email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
 email.send_keys("teosandu88@gmail.com")
 random_wait_time = random.randrange(1, 2)
 time.sleep(5)
-#driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
+driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
 time.sleep(40)
 '''print(random_wait_time)
 time.sleep(random_wait_time)'''
-email = driver.find_element(By.ID, 'user_login_continue')
-email.click()
+#email = driver.find_element(By.ID, 'user_login_continue')
+#email.click()
 '''random_wait_time = random.randrange(1, 2)
 print(random_wait_time)
 time.sleep(random_wait_time)'''
 password = driver.find_element(By.ID, 'user_login_password')
 password.send_keys("gabiMARIANA2")
-password = driver.find_element(By.ID, 'user_login_continue')    
-password.click()
+#password = driver.find_element(By.ID, 'user_login_continue')    
+#password.click()
 #time.sleep(15)
-#driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
+driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
 time.sleep(40)
 
 '''###init the window
@@ -85,9 +85,8 @@ while(ok):
         i += 1
     if(priceint < max_priceint):
         ok = 0
+        
         ##add to cart
-        ##add_to_cart = driver.find_element(By.XPATH, '//*[@id="main-container"]/section[3]/div/div[1]/div[2]/div/div[2]/div[2]/form/div/div[3]/div[2]/div[1]/button') #mac
-        ##add_to_cart = driver.find_element(By.XPATH, '//*[@id="main-container"]/section[3]/div/div[1]/div[2]/div/div[2]/div[2]/form[1]/div[1]/div[3]/div[3]/div[1]/button') #laptop
         add_to_cart = driver.find_element(By.CSS_SELECTOR, '.em.em-cart_fill.gtm_680klw') #pc
         add_to_cart.click()
 
@@ -95,10 +94,12 @@ while(ok):
         print(random_wait_time)
         time.sleep(random_wait_time)
 
+        #view cart
         view_cart = driver.find_element(By.LINK_TEXT, 'Vezi detalii cos')
         view_cart.click()
         driver.implicitly_wait(10)
 
+        #continue to checkout
         random_wait_time = random.randrange(1, 2)
         print(random_wait_time)
         time.sleep(random_wait_time)
@@ -109,9 +110,12 @@ while(ok):
         print(random_wait_time)
         time.sleep(random_wait_time)
 
+        #checkout courier and numerar
         courier = driver.find_element(By.ID, 'courierTab')
         courier.click()
         numerar = driver.find_element(By.ID, 'paymentLinenumerar')
         numerar.click()
+    driver.close()
+    driver.switch_to.window(driver.window_handles[0])
 
 time.sleep(5)
