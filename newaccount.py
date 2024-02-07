@@ -3,17 +3,22 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import select
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
+
+
 import time
 import random
 from selenium.webdriver.common.action_chains import ActionChains
-
+from selenium.webdriver.support import expected_conditions as EC
 with open('accountdetails.txt', 'r') as file:
     max_price = file.readlines()
 
 driver = webdriver.Chrome()
 driver.get("https://auth.emag.ro/user/login")
 driver.maximize_window()
-email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
+'''email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
 email.send_keys(max_price[0])
 random_wait_time = random.randrange(1, 2)
 time.sleep(5)
@@ -42,10 +47,9 @@ driver.execute_script("document.getElementById('user_register_agree_terms').clic
 
 driver.find_element(By.ID, 'user_register_continue').click()
 time.sleep(10)  #add captcha solver here 
-
 driver.find_element(By.LINK_TEXT, "Confirmă mai târziu").click()
 time.sleep(10)
-
+'''
 time.sleep(30)
 #adress adding
 driver.execute_script("document.getElementsByClassName('user-account-menu-delivery-addresses')[0].click()")
@@ -56,10 +60,15 @@ user.send_keys(max_price[2])
 phone = driver.find_element(By.ID, "user-phone")
 phone.click()
 phone.send_keys(max_price[3])
-driver.find_element(By.CSS_SELECTOR, ".ph-widget.ph-select.form-control.js-modal-districts").click()
-time.sleep(2)
 
-state_element = driver.find_element(By.NAME, 'district_id')
-state = Select(state_element)
-state.select_by_value('849')
+#interact with dropdown
+driver.find_element(By.CSS_SELECTOR, ".ph-widget ph-select.form-control.js-modal-districts.ph-active").click()
+dropdown_menu = driver.find_element(By.CSS_SELECTOR, ".ph-search-container")
+dropdown_menu.click()
+state = dropdown_menu.find_element(By.CSS_SELECTOR, ".ph-search")
+state.click()
+state.send_keys("Bucuresti")
+state.send_keys(Keys.ENTER)
+
 time.sleep(10)
+
