@@ -1,24 +1,38 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options 
+from selenium.webdriver.common.action_chains import ActionChains
 import time
 import random
 import os
 import subprocess
 
-#empty cart and connect
+with open('accountdetails.txt', 'r') as file:
+    details = file.readlines()
+
+#adding captcha solver
 options = webdriver.ChromeOptions()
 options.add_extension('./captcha.crx')
 driver = webdriver.Chrome(options=options)  
-time.sleep(10)
+
+driver.switch_to.window(driver.window_handles[0])
+key = driver.find_element(By.NAME, 'apiKey')
+key.send_keys('b846b80a551270938e218b5cecd98829')
+driver.find_element(By.ID, 'connect').click()
+time.sleep(1)
+driver.switch_to.alert.accept()
+driver.switch_to.window(driver.window_handles[0])
+
+#login
 driver.get("https://auth.emag.ro/user/login")
 driver.maximize_window()
 email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
-email.send_keys("teosandu88@gmail.com")
+email.send_keys(details[0])
 random_wait_time = random.randrange(1, 2)
 time.sleep(5)
+action = ActionChains(driver)
+action.send_keys(Keys.ESCAPE).perform()
 driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
 time.sleep(40)
 '''print(random_wait_time)
@@ -29,7 +43,7 @@ time.sleep(random_wait_time)'''
 print(random_wait_time)
 time.sleep(random_wait_time)'''
 password = driver.find_element(By.ID, 'user_login_password')
-password.send_keys("gabiMARIANA2")
+password.send_keys(details[1])
 #password = driver.find_element(By.ID, 'user_login_continue')    
 #password.click()
 #time.sleep(15)
@@ -50,9 +64,6 @@ with open('price.txt', 'r') as file:
 for i in max_price:
     max_priceint = max_priceint*10 + int(i)
 
-#read product from file
-with open('product.txt', 'r') as file:
-    product = file.readlines()
 ok = 1
 while(ok):
 
@@ -64,7 +75,7 @@ while(ok):
 
     ## search for a product
     driver.find_element(By.ID, 'searchboxTrigger').click()
-    driver.find_element(By.ID, 'searchboxTrigger').send_keys(product)
+    driver.find_element(By.ID, 'searchboxTrigger').send_keys(details[7])
     driver.find_element(By.ID, 'searchboxTrigger').submit()
 
     ##find the cheapest product
