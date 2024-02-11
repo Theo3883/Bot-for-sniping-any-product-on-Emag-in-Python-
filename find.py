@@ -10,6 +10,8 @@ import subprocess
 
 with open('accountdetails.txt', 'r') as file:
     details = file.readlines()
+with open('captchaAPI.txt', 'r') as file:
+    captcha = file.readlines()
 
 #adding captcha solver
 options = webdriver.ChromeOptions()
@@ -18,7 +20,7 @@ driver = webdriver.Chrome(options=options)
 
 driver.switch_to.window(driver.window_handles[0])
 key = driver.find_element(By.NAME, 'apiKey')
-key.send_keys('b846b80a551270938e218b5cecd98829')
+key.send_keys(captcha[0])
 driver.find_element(By.ID, 'connect').click()
 time.sleep(1)
 driver.switch_to.alert.accept()
@@ -29,39 +31,31 @@ driver.get("https://auth.emag.ro/user/login")
 driver.maximize_window()
 email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
 email.send_keys(details[0])
-random_wait_time = random.randrange(1, 2)
 time.sleep(5)
 action = ActionChains(driver)
 action.send_keys(Keys.ESCAPE).perform()
 driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
 time.sleep(40)
-'''print(random_wait_time)
-time.sleep(random_wait_time)'''
+
 #email = driver.find_element(By.ID, 'user_login_continue')
 #email.click()
-'''random_wait_time = random.randrange(1, 2)
-print(random_wait_time)
-time.sleep(random_wait_time)'''
+
 password = driver.find_element(By.ID, 'user_login_password')
 password.send_keys(details[1])
 #password = driver.find_element(By.ID, 'user_login_continue')    
 #password.click()
 #time.sleep(15)
+action = ActionChains(driver)
+action.send_keys(Keys.ESCAPE).perform()
 driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
-time.sleep(40)
 
-'''###init the window
-driver.execute_script("window.open('', '_blank');")
-driver.switch_to.window(driver.window_handles[1])
-driver.get("https://www.emag.ro/")
-driver.maximize_window()
-driver.implicitly_wait(20)'''
+action.send_keys(Keys.ESCAPE).perform()
+print("am dat escape")
+time.sleep(40)
 
 ##get the max price
 max_priceint = 0
-with open('price.txt', 'r') as file:
-    max_price = file.readlines()
-for i in max_price:
+for i in details[8].strip():  ##strip() for removing the newline character
     max_priceint = max_priceint*10 + int(i)
 
 ok = 1
@@ -126,7 +120,9 @@ while(ok):
         courier.click()
         numerar = driver.find_element(By.ID, 'paymentLinenumerar')
         numerar.click()
+        driver.find_element(By.CSS_SELECTOR, '.emg-btn-icon.emg-btn-icon-large.gtm_stj738bt').click()
+        break
     driver.close()
     driver.switch_to.window(driver.window_handles[0])
 
-time.sleep(5)
+time.sleep(60)

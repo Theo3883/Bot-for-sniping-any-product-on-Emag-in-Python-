@@ -9,6 +9,8 @@ import os
 
 with open('accountdetails.txt', 'r') as file:
     max_price = file.readlines()
+with open('captchaAPI.txt', 'r') as file:
+    captcha = file.readlines()
 
 #adding captcha solver
 options = webdriver.ChromeOptions()
@@ -17,7 +19,7 @@ driver = webdriver.Chrome(options=options)
 
 driver.switch_to.window(driver.window_handles[0])
 key = driver.find_element(By.NAME, 'apiKey')
-key.send_keys('b846b80a551270938e218b5cecd98829')
+key.send_keys(captcha[0])
 driver.find_element(By.ID, 'connect').click()
 time.sleep(1)
 driver.switch_to.alert.accept()
@@ -29,14 +31,10 @@ driver.maximize_window()
 email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
 email.send_keys(max_price[0])
 random_wait_time = random.randrange(1, 2)
-time.sleep(5)
+time.sleep(3)
 action = ActionChains(driver)
 action.send_keys(Keys.ESCAPE).perform()
 driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
-#print(random_wait_time)
-#time.sleep(random_wait_time)
-#email = driver.find_element(By.ID, 'user_login_continue')
-#email.click()
 time.sleep(40)
 
 #enter password
@@ -56,7 +54,7 @@ name.send_keys(max_price[2])
 driver.execute_script("document.getElementById('user_register_agree_terms').click()")
 
 #driver.find_element(By.ID, 'user_register_continue').click()
-#time.sleep(10)  #add captcha solver here 
+#time.sleep(10)  
 driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
 time.sleep(40)
 driver.find_element(By.LINK_TEXT, "Confirmă mai târziu").click()
@@ -103,17 +101,9 @@ driver.quit()
 
 # Get the current working directory
 current_directory = os.getcwd()
-
 # Specify the command to run
 command = ['python', os.path.join(current_directory, 'find.py')]
-
 # Use subprocess to run the command
-try:
-    result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    # 'result.stdout' contains the standard output
-    # 'result.stderr' contains the standard error
-    print("Execution successful. Output:\n", result.stdout)
-except subprocess.CalledProcessError as e:
-    # Handle errors
-    print(f"Error during execution:\n{e.stderr}")
+subprocess.run(command, check=True, text=True)
+
 
