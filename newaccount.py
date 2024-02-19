@@ -12,12 +12,18 @@ with open('accountdetails.txt', 'r') as file:
 with open('captchaAPI.txt', 'r') as file:
     captcha = file.readlines()
 
-#adding captcha solver
+'''#adding captcha solver
 options = webdriver.ChromeOptions()
 options.add_extension('./captcha.crx')
-driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome(options=options)'''
 
-driver.switch_to.window(driver.window_handles[0])
+options = webdriver.ChromeOptions()
+options.add_argument("--remote-debugging-port=9222")
+options.add_extension('./captcha.crx')
+
+driver = webdriver.Chrome(options=options)
+time.sleep(1)
+driver.switch_to.window(driver.window_handles[1])
 key = driver.find_element(By.NAME, 'apiKey')
 key.send_keys(captcha[0])
 driver.find_element(By.ID, 'connect').click()
@@ -31,7 +37,7 @@ driver.maximize_window()
 email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
 email.send_keys(max_price[0])
 random_wait_time = random.randrange(1, 2)
-time.sleep(3)
+time.sleep(5)
 action = ActionChains(driver)
 action.send_keys(Keys.ESCAPE).perform()
 driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
@@ -96,14 +102,9 @@ street.send_keys(max_price[6])
 driver.find_element(By.CSS_SELECTOR, ".btn.btn-default.js-save-changes.btn-save-change.btn-secondary").click()
 time.sleep(0.5)
 
-driver.close()
-driver.quit()
-
 # Get the current working directory
 current_directory = os.getcwd()
 # Specify the command to run
 command = ['python', os.path.join(current_directory, 'find.py')]
 # Use subprocess to run the command
 subprocess.run(command, check=True, text=True)
-
-

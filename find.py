@@ -13,46 +13,65 @@ with open('accountdetails.txt', 'r') as file:
 with open('captchaAPI.txt', 'r') as file:
     captcha = file.readlines()
 
-#adding captcha solver
+'''#adding captcha solver
 options = webdriver.ChromeOptions()
 options.add_extension('./captcha.crx')
-driver = webdriver.Chrome(options=options)  
+driver = webdriver.Chrome(options=options)
 
-driver.switch_to.window(driver.window_handles[0])
-key = driver.find_element(By.NAME, 'apiKey')
-key.send_keys(captcha[0])
-driver.find_element(By.ID, 'connect').click()
-time.sleep(1)
-driver.switch_to.alert.accept()
-driver.switch_to.window(driver.window_handles[0])
+chrome_options = Options()
+chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+driver = webdriver.Chrome(options=chrome_options)
+time.sleep(1)   
+driver.switch_to.window(driver.window_handles[1])'''
 
-#login
-driver.get("https://auth.emag.ro/user/login")
-driver.maximize_window()
-email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
-email.send_keys(details[0])
-time.sleep(5)
-action = ActionChains(driver)
-action.send_keys(Keys.ESCAPE).perform()
-driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
-time.sleep(40)
+ok = int(details[9])
+if ok == 0:
+    #adding captcha solver
+    options = webdriver.ChromeOptions()
+    options.add_extension('./captcha.crx')
+    driver = webdriver.Chrome(options=options)
+    driver.switch_to.window(driver.window_handles[0])
+    time.sleep(1)
+    key = driver.find_element(By.NAME, 'apiKey')
+    key.send_keys(captcha[1])
+    driver.find_element(By.ID, 'connect').click()
+    time.sleep(1)
+    driver.switch_to.alert.accept()
+    driver.switch_to.window(driver.window_handles[0])
 
-#email = driver.find_element(By.ID, 'user_login_continue')
-#email.click()
+    #login
+    driver.get("https://auth.emag.ro/user/login")
+    driver.maximize_window()
+    email = driver.find_element(By.XPATH, '//*[@id="user_login_email"]')
+    email.send_keys(details[0])
+    time.sleep(5)
+    action = ActionChains(driver)
+    action.send_keys(Keys.ESCAPE).perform()
+    driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
+    time.sleep(40)
 
-password = driver.find_element(By.ID, 'user_login_password')
-password.send_keys(details[1])
-#password = driver.find_element(By.ID, 'user_login_continue')    
-#password.click()
-#time.sleep(15)
-action = ActionChains(driver)
-action.send_keys(Keys.ESCAPE).perform()
-driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
+    #email = driver.find_element(By.ID, 'user_login_continue')
+    #email.click()
 
-action.send_keys(Keys.ESCAPE).perform()
-print("am dat escape")
-time.sleep(40)
+    password = driver.find_element(By.ID, 'user_login_password')
+    password.send_keys(details[1])
+    #password = driver.find_element(By.ID, 'user_login_continue')    
+    #password.click()
+    #time.sleep(15)
+    action = ActionChains(driver)
+    action.send_keys(Keys.ESCAPE).perform()
+    driver.find_element(By.CLASS_NAME, 'captcha-solver-info').click()
 
+    action.send_keys(Keys.ESCAPE).perform()
+    print("am dat escape")
+    time.sleep(40)
+else:
+    chrome_options = Options()
+    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+    driver = webdriver.Chrome(options=chrome_options)
+    time.sleep(1)   
+    driver.switch_to.window(driver.window_handles[1])
+    
 ##get the max price
 max_priceint = 0
 for i in details[8].strip():  ##strip() for removing the newline character
@@ -86,7 +105,8 @@ while(ok):
     priceint = 0
     i=0
     while price[i] != ",":
-        priceint = priceint*10 + int(price[i])
+        if(price[i] != "."):
+            priceint = priceint*10 + int(price[i])
         i += 1
     if(priceint < max_priceint):
         ok = 0

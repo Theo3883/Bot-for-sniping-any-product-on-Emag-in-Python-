@@ -21,6 +21,10 @@ def enter_data():
     city = city_entry.get()
     street = street_entry.get()
     regstatus = reg_status.get()
+    if regstatus == "1":
+        accountstatus = "0"
+    else:
+        accountstatus = "1"
     with open('accountdetails.txt', 'w') as file:
         file.write(f'{email}\n')
         file.write(f'{password}\n')
@@ -31,6 +35,7 @@ def enter_data():
         file.write(f'{street}\n')
         file.write(f'{productname}\n')
         file.write(f'{productprice}\n')
+        file.write(f'{accountstatus}\n')
     
     # run the bot
     if regstatus == "1":
