@@ -1,4 +1,5 @@
 This a bot which will snipe for any product on emag under the max price you will enter
+
 Features:
 1. GUI to enter every information you will need for the product and delivery 
 2. The bot will make you an account on emag and enter the desire adress (if you don't have an account)
